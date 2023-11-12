@@ -8,7 +8,7 @@ rubocop:
   script:
     - bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
   after_script:
-    - wget -O sarif-converter https://gitlab.com/ignis-build/sarif-converter/-/releases/permalink/latest/downloads/bin/sarif-converter-linux
+    - wget -O sarif-converter --quit https://gitlab.com/ignis-build/sarif-converter/-/releases/permalink/latest/downloads/bin/sarif-converter-linux
     - chmod +x sarif-converter
     - ./sarif-converter --type codequality rubocop.sarif gl-code-quality-report.json
   artifacts:
