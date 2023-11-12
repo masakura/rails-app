@@ -1,0 +1,19 @@
+default:
+  image: ruby:3.2
+  before_script:
+    - bundle install --path vendor/bundle
+
+rubocop:
+  stage: build
+  script:
+    - bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
+  after_script:
+    - wget -O sarif-converter --quit https://gitlab.com/ignis-build/sarif-converter/-/releases/permalink/latest/downloads/bin/sarif-converter-linux
+    - chmod +x sarif-converter
+    - ./sarif-converter --type codequality rubocop.sarif gl-code-quality-report.json
+  artifacts:
+    name: rubocop
+    paths: [ rubocop.sarif ]
+    reports:
+      codequality: gl-code-quality-report.json
+    when: always
