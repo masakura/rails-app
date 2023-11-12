@@ -1,5 +1,5 @@
 AllCops:
   Exclude:
-    - bin/*
+    - bin/**/*
     - test/test_helper.rb
-    - vendor/bundle
+    - vendor/**/*
