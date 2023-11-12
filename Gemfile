@@ -4,6 +4,7 @@ ruby "3.2.2"
 
 gem 'rubocop', :require => false
 gem 'rubocop-rails', :require => false
+gem 'code-scanning-rubocop'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.2"
