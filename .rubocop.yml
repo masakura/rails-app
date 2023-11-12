@@ -1,0 +1,6 @@
+AllCops:
+  Exclude:
+    - bin/setup
+    - bin/bundle
+    - bin/rails
+    - test/test_helper.rb
