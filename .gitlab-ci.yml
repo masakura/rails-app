@@ -1,0 +1,13 @@
+default:
+  image: ruby:3.2
+  before_script:
+    - bundle install --path vendor/bundle
+
+rubocop:
+  stage: build
+  script:
+    - bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
+  artifacts:
+    name: rubocop
+    paths: [ rubocop.sarif ]
+    when: always
