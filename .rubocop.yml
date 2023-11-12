@@ -2,3 +2,4 @@ AllCops:
   Exclude:
     - bin/*
     - test/test_helper.rb
+    - vendor/bundle
