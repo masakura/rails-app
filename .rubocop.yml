@@ -1,6 +1,4 @@
 AllCops:
   Exclude:
-    - bin/setup
-    - bin/bundle
-    - bin/rails
+    - bin/*
     - test/test_helper.rb

@@ -1,6 +1,8 @@
-require "active_support/core_ext/integer/time"
+# frozen_string_literal: true
 
-Rails.application.configure do
+require 'active_support/core_ext/integer/time'
+
+Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
@@ -19,15 +21,18 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
+  if Rails.root.join('tmp/caching-dev.txt').exist?
+    # noinspection RubyResolve
     config.action_controller.perform_caching = true
+    # noinspection RubyResolve
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
+      'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
   else
+    # noinspection RubyResolve
     config.action_controller.perform_caching = false
 
     config.cache_store = :null_store
@@ -37,26 +42,33 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
+  # noinspection RubyResolve
   config.action_mailer.raise_delivery_errors = false
 
+  # noinspection RubyResolve
   config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
+  # noinspection RubyResolve
   config.active_support.deprecation = :log
 
   # Raise exceptions for disallowed deprecations.
+  # noinspection RubyResolve
   config.active_support.disallowed_deprecation = :raise
 
   # Tell Active Support which deprecation messages to disallow.
+  # noinspection RubyResolve
   config.active_support.disallowed_deprecation_warnings = []
 
   # Raise an error on page load if there are pending migrations.
+  # noinspection RubyResolve
   config.active_record.migration_error = :page_load
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
   # Highlight code that enqueued background job in logs.
+  # noinspection RubyResolve
   config.active_job.verbose_enqueue_logs = true
 
   # Suppress logger output for asset requests.
@@ -72,5 +84,6 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   # Raise error when a before_action's only/except options reference missing actions
+  # noinspection RubyResolve
   config.action_controller.raise_on_missing_callback_actions = true
 end
