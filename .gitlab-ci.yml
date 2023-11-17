@@ -107,7 +107,7 @@ deploy master:
     - az webapp stop
     - az webapp start
   environment:
-    name: review/$CI_COMMIT_REF_SLUG
+    name: $CI_COMMIT_REF_SLUG
     url: $AZURE_WEBAPP_URL
     on_stop: stop review
   needs: [ docker ]
