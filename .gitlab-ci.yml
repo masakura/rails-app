@@ -81,6 +81,8 @@ deploy review:
 stop review:
   extends: .azure
   stage: deploy
+  variables:
+    GIT_STRATEGY: none
   script:
     - az webapp delete
   when: manual
