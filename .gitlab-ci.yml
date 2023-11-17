@@ -58,7 +58,7 @@ docker:
 
 deploy review:
   extends: .azure
-  stage: build
+  stage: deploy
   script:
     - |-
       if ! az webapp show &> /dev/null; then
@@ -72,6 +72,21 @@ deploy review:
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     url: $AZURE_WEBAPP_URL
+    on_stop: stop review
+  needs: [ docker ]
+  except:
+    - tags
+    - master
+
+stop review:
+  extends: .azure
+  stage: deploy
+  script:
+    - az webapp delete
+  when: manual
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    action: stop
   except:
     - tags
     - master
