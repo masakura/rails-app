@@ -17,3 +17,14 @@ rubocop:
     reports:
       codequality: gl-code-quality-report.json
     when: always
+
+test:
+  stage: build
+  script:
+    - ./bin/rails test
+  artifacts:
+    name: test
+    paths: [ ./test/reports/*.xml ]
+    reports:
+      junit: ./test/reports/*.xml
+    when: always
