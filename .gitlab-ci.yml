@@ -41,3 +41,37 @@ docker:
   script:
     - docker build --tag "$DOCKER_IMAGE"  .
     - docker push "$DOCKER_IMAGE"
+
+.azure:
+  image: mcr.microsoft.com/azure-cli
+  variables:
+    AZURE_USER: 826d44eb-aff6-4886-a896-ae653e6d5039
+    AZURE_TENANT: b4b14534-61c9-484a-92d3-6c40b05d9c21
+    AZURE_RESOURCE_GROUP: cicd
+    AZURE_APP_SERVICE: cicd
+    AZURE_WEBAPP: ${CI_COMMIT_REF_SLUG}-cicd189
+    AZURE_WEBAPP_URL: https://$AZURE_WEBAPP.azurewebsites.net/
+  before_script:
+    - az login --service-principal -u "$AZURE_USER" -p "$AZURE_PASSWORD" --tenant "$AZURE_TENANT"
+    - az configure --defaults group=$AZURE_RESOURCE_GROUP
+    - az configure --defaults web=$AZURE_WEBAPP
+
+deploy review:
+  extends: .azure
+  stage: build
+  script:
+    - |-
+      if ! az webapp show &> /dev/null; then
+        az webapp create -n "$AZURE_WEBAPP" -p "$AZURE_APP_SERVICE" -i nginx
+      fi
+    # なんか Rails よーわからんので、development でデプロイした (やっちゃだめだよ!)
+    - az webapp config appsettings set --settings RAILS_ENV=development
+    - az webapp config container set -i $DOCKER_IMAGE
+    - az webapp stop
+    - az webapp start
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: $AZURE_WEBAPP_URL
+  except:
+    - tags
+    - master
