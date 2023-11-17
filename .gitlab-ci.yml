@@ -3,6 +3,9 @@ default:
   before_script:
     - bundle install --path vendor/bundle
 
+variables:
+  DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+
 rubocop:
   stage: build
   script:
@@ -34,6 +37,7 @@ docker:
   services: [ docker:dind ]
   stage: build
   before_script:
-    - docker info
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    - docker ps
+    - docker build --tag "$DOCKER_IMAGE"  .
+    - docker push "$DOCKER_IMAGE"
