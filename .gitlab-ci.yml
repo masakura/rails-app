@@ -90,3 +90,24 @@ stop review:
   except:
     - tags
     - master
+
+deploy master:
+  extends: .azure
+  stage: deploy
+  script:
+    - |-
+      if ! az webapp show &> /dev/null; then
+        az webapp create -n "$AZURE_WEBAPP" -p "$AZURE_APP_SERVICE" -i nginx
+      fi
+    # なんか Rails よーわからんので、development でデプロイした (やっちゃだめだよ!)
+    - az webapp config appsettings set --settings RAILS_ENV=development
+    - az webapp config container set -i $DOCKER_IMAGE
+    - az webapp stop
+    - az webapp start
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: $AZURE_WEBAPP_URL
+    on_stop: stop review
+  needs: [ docker ]
+  only:
+    - master
