@@ -74,6 +74,9 @@ deploy review:
     url: $AZURE_WEBAPP_URL
     on_stop: stop review
   needs: [ docker ]
+  only:
+    variables:
+      - $AZURE_PASSWORD
   except:
     - tags
     - master
@@ -89,6 +92,9 @@ stop review:
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     action: stop
+  only:
+    variables:
+      - $AZURE_PASSWORD
   except:
     - tags
     - master
@@ -111,4 +117,7 @@ deploy master:
     url: $AZURE_WEBAPP_URL
   needs: [ docker ]
   only:
-    - master
+    refs:
+      - master
+    variables:
+      - $AZURE_PASSWORD
