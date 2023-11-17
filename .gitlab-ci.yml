@@ -28,3 +28,12 @@ test:
     reports:
       junit: ./test/reports/*.xml
     when: always
+
+docker:
+  image: docker
+  services: [ docker:dind ]
+  stage: build
+  before_script:
+    - docker info
+  script:
+    - docker ps
