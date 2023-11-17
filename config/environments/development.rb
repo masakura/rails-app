@@ -86,4 +86,6 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Raise error when a before_action's only/except options reference missing actions
   # noinspection RubyResolve
   config.action_controller.raise_on_missing_callback_actions = true
+
+  config.hosts.clear
 end
